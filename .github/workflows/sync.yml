@@ -39,7 +39,7 @@ jobs:
           if ! git merge upstream/master --allow-unrelated-histories --no-edit; then
             echo "合并冲突，创建备份分支..."
             git merge --abort
-            BACKUP_BRANCH="backup/master-$(date +%Y%m%d%H%M%S)"
+            BACKUP_BRANCH="backup-$(date +%Y%m%d%H%M%S)"
             git branch $BACKUP_BRANCH
             git push origin $BACKUP_BRANCH
             git reset --hard upstream/master
@@ -48,7 +48,7 @@ jobs:
             echo "合并成功，无冲突"
           fi
 
-      - name: 推送到私有仓库
+      - name: 推送到仓库
         run: |
           git push origin master || git push origin master --force || echo "无需推送"  # ✅ 普通push失败时再强制
           git push origin --tags || echo "无 tag 更新"
